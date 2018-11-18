@@ -1,6 +1,6 @@
 import '../style.css';
 
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener('DOMContentLoaded', function() {
   const appDiv = document.getElementById('app');
-  appDiv.innerHTML = `<h1>Hi from my app</h1>`;
+  appDiv.innerHTML = '<h1>Hi from my app</h1>';
 });
