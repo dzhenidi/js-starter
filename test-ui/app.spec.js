@@ -3,7 +3,7 @@ const { expect } = require('chai');
 
 
 
-describe('sample test', function () {
+describe('Snake page', function () {
   let page;
 
   before (async function () {
@@ -13,20 +13,20 @@ describe('sample test', function () {
 
   after (async function () {
     await page.close();
-  })
+  });
 
   it('should have the correct page title', async function () {
-    expect(await page.title()).to.eql('JS Starter');
+    expect(await page.title()).to.eql('Snake Game');
   });
 
   it('should have a heading', async function () {
-    const HEADING_SELECTOR = '#app';
+    const HEADING_SELECTOR = 'h1';
     let heading;
 
     await page.waitFor(HEADING_SELECTOR);
     heading = await page.$eval(HEADING_SELECTOR, heading => heading.innerText);
 
-    expect(heading).to.eql('Hi from my app');
+    expect(heading).to.eql('Snake');
   });
 
 });

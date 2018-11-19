@@ -1,6 +1,7 @@
 import '../style.css';
+import { Game } from './game';
 
-document.addEventListener('DOMContentLoaded', function() {
-  const appDiv = document.getElementById('app');
-  appDiv.innerHTML = '<h1>Hi from my app</h1>';
+document.addEventListener('DOMContentLoaded', () => {
+  const game = new Game();
+  game.init();
 });
