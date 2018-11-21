@@ -102,8 +102,13 @@ describe('Board', () => {
     });
 
 
-    it('identifies invalid move', function () {
+    it('identifies invalid move vertically', function () {
       const actual = board.isValidMove([3, 1]);
+      expect(actual).to.eq(false);
+    });
+
+    it('identifies invalid move horizontally', function () {
+      const actual = board.isValidMove([0, 2]);
       expect(actual).to.eq(false);
     });
 

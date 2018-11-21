@@ -1,8 +1,12 @@
 export const CELL_SIZE = 30;
 
-export const NUM_ROWS = 20;
+export const NUM_ROWS = 10;
 
-export const NUM_COLUMNS = 10;
+export const NUM_COLUMNS = 20;
+
+export const BOARD_WIDTH = NUM_COLUMNS * CELL_SIZE;
+
+export const BOARD_HEIGHT = NUM_ROWS * CELL_SIZE;
 
 export const FRAMES_PER_SECOND = 2;
 

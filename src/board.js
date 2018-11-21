@@ -1,6 +1,6 @@
-import { CELL_SIZE, COLORS, STARTING_POSITION, NUM_COLUMNS, NUM_ROWS, STARTING_DIRECTION } from './constants';
+import { CELL_SIZE, COLORS, STARTING_POSITION, NUM_COLUMNS, NUM_ROWS, STARTING_DIRECTION, BOARD_WIDTH, BOARD_HEIGHT } from './constants';
 import { Snake } from './snake';
-import { createEmptyGrid } from './utilities';
+import { createEmptyGrid, getRandomInt } from './utilities';
 
 export class Board {
   constructor(grid, snake) {
@@ -9,9 +9,9 @@ export class Board {
     this.NUM_COLS = this.grid[0].length;
     this.snake = snake || new Snake(STARTING_POSITION);
     this.snakeDirection = STARTING_DIRECTION;
+    this.hasApple = false;
 
     this.addSnake();
-    this.addApple();
   }
 
   setCell(pos, value) {
@@ -26,12 +26,16 @@ export class Board {
 
   step() {
     this.move(this.snakeDirection);
+    if (!this.hasApple) {
+      this.addApple();
+    }
   }
 
   draw() {
-    const canvas = document.getElementById('snake-canvas');
+    const canvas = global.document.getElementById('snake-canvas');
+    canvas.width = BOARD_WIDTH;
+    canvas.height = BOARD_HEIGHT;
     const ctx = canvas.getContext('2d');
-
     for (let y = 0; y < this.NUM_ROWS; y++) {
       for (let x = 0; x < this.NUM_COLS; x++) {
         const rect = [x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE];
@@ -51,9 +55,11 @@ export class Board {
     this.snake.positions.forEach(position => this.setCell(position, 's'));
   }
 
-  // TODO: add apple to a random unoccupied cell
-  addApple(pos) {
-    // this.setCell(pos, 'a');
+  addApple() {
+    const availablePositions = this.getEmptyCells();
+    const randomPosition = availablePositions[getRandomInt(availablePositions.length + 1)];
+    this.setCell(randomPosition, 'a');
+    this.hasApple = true;
   }
 
   move(direction) {
@@ -67,6 +73,7 @@ export class Board {
         this.snake.growTo(nextPosition);
         // update the board
         this.setCell(this.snake.head, 's');
+        this.hasApple = false;
         break;
       }
       case 0: {

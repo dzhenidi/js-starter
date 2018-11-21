@@ -4,11 +4,19 @@
     <meta charset="utf-8"/>
     <title>Snake Game</title>
     <script src="./app.bundle.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Bitter:400,700" rel="stylesheet">
   </head>
   <body>
     <h1>Snake</h1>
-    <canvas id="snake-canvas" width="600" height="300">
-      This is a canvas animation game. To play, open in a browser that supports canvas.
-    </canvas>
+    <section>
+      <div>Press spacebar to play</div>
+      <div>Use the arrow keys to move</div>
+    </section>
+
+    <main class="board-container">
+      <canvas id="snake-canvas" width="600" height="300">
+        This is a canvas animation game. To play, open in a browser that supports canvas.
+      </canvas>
+    </main>
   </body>
 </html>

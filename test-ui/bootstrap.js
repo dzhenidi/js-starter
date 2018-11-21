@@ -1,7 +1,8 @@
 const puppeteer = require('puppeteer');
 const { expect } = require('chai');
-const _ = require('lodash');
-const globalVariables = _.pick(global, ['browser', 'expect']);
+const pick = require('lodash.pick');
+const globalVariables = pick(global, ['browser', 'expect']);
+const { before, after } = require('mocha');
 
 // puppeteer options
 const opts = {
@@ -18,7 +19,7 @@ before (async function () {
 
 // close browser and reset global variables
 after (function () {
-  browser.close();
+  global.browser.close();
 
   global.browser = globalVariables.browser;
   global.expect = globalVariables.expect;

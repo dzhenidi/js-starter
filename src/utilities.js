@@ -8,3 +8,7 @@ export function createEmptyGrid(rows, columns) {
   }
   return grid;
 }
+
+export function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
