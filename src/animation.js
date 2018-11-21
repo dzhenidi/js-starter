@@ -3,7 +3,7 @@ import { FRAMES_PER_SECOND } from './constants';
 export class Animation {
   constructor(fps) {
     this.fps = fps || FRAMES_PER_SECOND;
-    this.paused = false;
+    this.paused = true;
     this.delay = 1000 / this.fps;
     this.startTime = Date.now();
   }
