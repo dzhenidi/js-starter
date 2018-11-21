@@ -1,23 +1,25 @@
 import { Board } from './board';
+import { Animation } from './animation';
 
 export class Game {
   constructor() {
     this.board = new Board();
+    this.animation = new Animation();
   }
 
   init() {
     this.bindKeyHandlers();
-    this.animate();
+    this.animation.start(this.animate.bind(this));
   }
 
   animate() {
+    this.board.step();
     this.board.draw();
-
-    requestAnimationFrame(this.animate.bind(this));
   }
 
   togglePause() {
-    // toggle a paused/active property based on which board updates are disabled
+    this.animation.togglePause();
+    // TODO: pause should also disable the navigation key handlers
   }
 
   bindKeyHandlers() {

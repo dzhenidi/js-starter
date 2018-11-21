@@ -49,7 +49,7 @@ export class Snake {
     this._size++;
   }
 
-  slitherTo(value) {
+  moveTo(value) {
     const newHead = {
       value,
       next: null,

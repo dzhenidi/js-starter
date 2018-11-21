@@ -46,10 +46,10 @@ describe('snake', function () {
   });
 
 
-  describe('slitherTo', function () {
+  describe('moveTo', function () {
     beforeEach(() => {
       snake = new Snake(1);
-      snake.slitherTo(2);
+      snake.moveTo(2);
     });
 
 
@@ -67,7 +67,7 @@ describe('snake', function () {
 
     it('does not set tail when size is 1', function () {
       snake.growTo(3);
-      snake.slitherTo(4);
+      snake.moveTo(4);
       expect(snake.tail).to.eql(3);
     });
 

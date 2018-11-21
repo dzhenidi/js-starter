@@ -1,35 +1,41 @@
-import { CELL_SIZE, COLORS, STARTING_POSITION, NUM_COLUMNS, NUM_ROWS } from './constants';
+import { CELL_SIZE, COLORS, STARTING_POSITION, NUM_COLUMNS, NUM_ROWS, STARTING_DIRECTION } from './constants';
 import { Snake } from './snake';
 import { createEmptyGrid } from './utilities';
 
 export class Board {
   constructor(grid, snake) {
     this.grid = grid || createEmptyGrid(NUM_ROWS, NUM_COLUMNS);
-    this.Y = this.grid.length;
-    this.X = this.grid[0].length;
+    this.NUM_ROWS = this.grid.length;
+    this.NUM_COLS = this.grid[0].length;
     this.snake = snake || new Snake(STARTING_POSITION);
+    this.snakeDirection = STARTING_DIRECTION;
 
     this.addSnake();
     this.addApple();
   }
 
   setCell(pos, value) {
-    let [column, row] = pos;
+    let [row, column] = pos;
     this.grid[row][column] = value;
   }
 
   getCell(pos) {
-    let [column, row] = pos;
+    let [row, column] = pos;
     return this.grid[row][column];
+  }
+
+  step() {
+    this.move(this.snakeDirection);
   }
 
   draw() {
     const canvas = document.getElementById('snake-canvas');
     const ctx = canvas.getContext('2d');
 
-    for (let y = 0; y < this.Y; y++) {
-      for (let x = 0; x < this.X; x++) {
+    for (let y = 0; y < this.NUM_ROWS; y++) {
+      for (let x = 0; x < this.NUM_COLS; x++) {
         const rect = [x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE];
+
         // draw cell
         ctx.fillStyle = COLORS[this.grid[y][x]];
         ctx.fillRect(...rect);
@@ -51,6 +57,7 @@ export class Board {
   }
 
   move(direction) {
+    this.snakeDirection = direction;
     // find next head pos
     const nextPosition = this.getNextPosition(direction);
     if (this.isValidMove(nextPosition)) {
@@ -58,7 +65,7 @@ export class Board {
       case 'a': {
         // update the snake
         this.snake.growTo(nextPosition);
-        // add the new head
+        // update the board
         this.setCell(this.snake.head, 's');
         break;
       }
@@ -70,8 +77,8 @@ export class Board {
           this.setCell(this.snake.head, 0);
         }
         // update the snake
-        this.snake.slitherTo(nextPosition);
-        // add the new head
+        this.snake.moveTo(nextPosition);
+        // update the board
         this.setCell(this.snake.head, 's');
         break;
       }
@@ -80,39 +87,39 @@ export class Board {
   }
 
   getNextPosition(direction) {
-    const [x, y] = this.snake.head;
+    const [row, col] = this.snake.head;
 
     switch (direction) {
     case 'up': {
       return [
-        x,
-        y - 1
+        row - 1,
+        col
       ];
     }
     case 'down': {
       return [
-        x,
-        y + 1
+        row + 1,
+        col
       ];
     }
     case 'left': {
       return [
-        x - 1,
-        y
+        row,
+        col - 1
       ];
     }
     case 'right': {
       return [
-        x + 1,
-        y
+        row,
+        col + 1
       ];
     }
     }
   }
 
   isValidMove(pos) {
-    const [x, y] = pos;
-    if (x < 0 || x >= this.X || y < 0 || y >= this.Y) {
+    let [row, col] = pos;
+    if (col < 0 || col >= this.NUM_COLS || row < 0 || row >= this.NUM_ROWS) {
       return false;
     }
     return true;
@@ -120,10 +127,10 @@ export class Board {
 
   getEmptyCells() {
     let emptyCells = [];
-    for (let y = 0; y < this.Y; y++) {
-      for (let x = 0; x < this.X; x++) {
-        if (this.getCell([x, y]) === 0) {
-          emptyCells.push([x, y]);
+    for (let row = 0; row < this.NUM_ROWS; row++) {
+      for (let col = 0; col < this.NUM_COLS; col++) {
+        if (this.getCell([row, col]) === 0) {
+          emptyCells.push([row, col]);
         }
       }
     }
